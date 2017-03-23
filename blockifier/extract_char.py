@@ -51,7 +51,6 @@ def accept_bounding_box(bounding_box, black_pixels):
 
 	# reject if mostly whitespace
 	if(float(black_pixels)/get_bounding_box_size(bounding_box) < 0.2):
-		print("to much whitespace")
 		return False;
 
 	return True; 
