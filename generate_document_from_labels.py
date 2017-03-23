@@ -35,7 +35,6 @@ def main(labels_file,newline_file,destination_file):
 	k = 0
 	for line in new_line_array:
 		for i in line:
-			print(string[k:k+i])
 			char_lines.append(string[k:k+i]+ " ")
 			k += i
 		char_lines.append("\n")

@@ -103,6 +103,7 @@ def get_cropped_pics(bounding_list,image):
 	for bounding in bounding_list:
 		temp = image.crop(bounding)
 
+		# cannot remove pictures after newline file is created
 		'''
 		black_amount = 0.0
 		for i in range(0,temp.width):
@@ -204,7 +205,6 @@ def contains_box(containing_box, contained_box):
 def contained_in_box(bounding_box, bounding_list):
 	for b in bounding_list:
 		if contains_box(b,bounding_box):
-			#if(float(get_bounding_box_size(bounding_box))/get_bounding_box_size(b) > 0.4):
 			return True;
 
 	return False;
@@ -239,7 +239,7 @@ def sieve_unwanted(bounding_pixel_list, document_size):
 	average_size = sum(size_list)/len(size_list)
 
 	for bounding in temp_list:
-		if(not contained_in_box(bounding, temp_list) and (average_size*0.4 < get_bounding_box_size(bounding) and get_bounding_box_size(bounding) < average_size*7 )):
+		if(not contained_in_box(bounding, temp_list) and (average_size*0.4 < get_bounding_box_size(bounding) and get_bounding_box_size(bounding) < average_size*8 )):
 			new_list.append(bounding)
 
 	return new_list
@@ -303,8 +303,6 @@ def save_newline_to_file(bounding_list,filepath,directory):
 
 	#bounding box is tuple constisting of rectangle coordinates: (left, upper, right, lower)
 
-	print("in newline")
-
 	directory = directory+"/newline"
 
 	# check if directory exists and create one if not
@@ -324,7 +322,6 @@ def save_newline_to_file(bounding_list,filepath,directory):
 
 	for b in bounding_list:
 		if(b[1] > box_bottom):
-			#print (str(b[0]) + " > "+ str(bottom))
 			index.append(ind_counter)
 			char_per_line.append(str(counter))
 			counter = 0
@@ -342,7 +339,6 @@ def save_newline_to_file(bounding_list,filepath,directory):
 	sublist_start = 0
 	for i in index:
 		sorted_list = sorted(bounding_list[sublist_start:i],key=lambda x: x[0])
-		sublist_start = i
 
 		word_per_line = []
 		word_len = 1

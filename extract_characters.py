@@ -60,12 +60,12 @@ for img_path in os.listdir(source_directory):
 
 	# get rid of unwanted bounding boxes and remove pixel count
 	bounding_list = sieve_unwanted(bounding_pixel_list,document.size)
-	
-	# Get a list of pictures using the bounding boxes
-	picture_list,bounding_list = get_cropped_pics(bounding_list,document)
 
 	# sorts the bounding boxes based on location and saves that setup to filename
 	bounding_list = save_newline_to_file(bounding_list,filepath,output_directory)
+
+	# Get a list of pictures using the bounding boxes
+	picture_list,bounding_list = get_cropped_pics(bounding_list,document)
 
 	if(show_marked_boxes):
 		mark_bounding_boxes(filepath,bounding_list,output_directory)
