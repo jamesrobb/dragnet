@@ -50,7 +50,8 @@ def accept_bounding_box(bounding_box, black_pixels):
 		return False;
 
 	# reject if mostly whitespace
-	if(float(black_pixels)/get_bounding_box_size(bounding_box) < 0.1):
+	if(float(black_pixels)/get_bounding_box_size(bounding_box) < 0.2):
+		print("to much whitespace")
 		return False;
 
 	return True; 
@@ -239,7 +240,7 @@ def sieve_unwanted(bounding_pixel_list, document_size):
 	average_size = sum(size_list)/len(size_list)
 
 	for bounding in temp_list:
-		if(not contained_in_box(bounding, temp_list) and (average_size*0.4 < get_bounding_box_size(bounding) and get_bounding_box_size(bounding) < average_size*8 )):
+		if(not contained_in_box(bounding, temp_list) and (average_size*0.4 < get_bounding_box_size(bounding) and get_bounding_box_size(bounding) < average_size*9)):
 			new_list.append(bounding)
 
 	return new_list
@@ -298,6 +299,38 @@ def save_binary_to_file(binary_lst,filepath,directory):
 
 	return
 
+def sort_bounding_list(bounding_list):
+
+	bounding_list.sort(key=lambda x: get_bounding_box_size(x) ,reverse=True)
+	bounding_list.sort(key=lambda x: x[0])
+	bounding_list.sort(key=lambda x: x[1])
+
+	box_left = 0
+	ind_counter = 0
+	index = []
+
+	box_bottom = bounding_list[0][3]
+
+	for b in bounding_list:
+		if(b[1] > box_bottom):
+			index.append(ind_counter)
+			box_left = 0
+			box_bottom = b[3]
+		else:
+			box_left = b[0]
+		ind_counter += 1
+
+	index.append(ind_counter)
+
+	sublist_start = 0
+	for i in index:
+		sorted_list = sorted(bounding_list[sublist_start:i],key=lambda x: x[0])
+		bounding_list = bounding_list[:sublist_start] + sorted_list + bounding_list[i:]
+		sublist_start = i
+
+	return bounding_list
+
+
 def save_newline_to_file(bounding_list,filepath,directory):
 	#Sort first by size, then by vertical position, then by horizontal position,
 
@@ -312,8 +345,6 @@ def save_newline_to_file(bounding_list,filepath,directory):
 	path, filename = os.path.split(filepath)
 	newfilename, filetype = os.path.splitext(filename)
 	
-	char_per_line = []
-	counter = 0
 	box_left = 0
 	ind_counter = 0
 	index = []
@@ -323,34 +354,29 @@ def save_newline_to_file(bounding_list,filepath,directory):
 	for b in bounding_list:
 		if(b[1] > box_bottom):
 			index.append(ind_counter)
-			char_per_line.append(str(counter))
-			counter = 0
 			box_left = 0
 			box_bottom = b[3]
 		else:
 			box_left = b[0]
-		counter += 1
 		ind_counter += 1
 
-	char_per_line.append(str(counter))
 	index.append(ind_counter)
 
 	spaced_lines = []
 	sublist_start = 0
 	for i in index:
-		sorted_list = sorted(bounding_list[sublist_start:i],key=lambda x: x[0])
+		sub_list = bounding_list[sublist_start:i]
 
 		word_per_line = []
 		word_len = 1
-		for s in range(len(sorted_list)-1):
-			if get_bounding_box_width(sorted_list[s])*0.5 < (sorted_list[s+1][0] - sorted_list[s][2]):  
+		for s in range(len(sub_list)-1):
+			if get_bounding_box_width(sub_list[s])*0.5 < (sub_list[s+1][0] - sub_list[s][2]):  
 				word_per_line.append(word_len)
 				word_len = 0
 			word_len += 1
 		word_per_line.append(word_len)
 		spaced_lines.append(word_per_line)
 
-		bounding_list = bounding_list[:sublist_start] + sorted_list + bounding_list[i:]
 		sublist_start = i
 
 	list_to_write = []
@@ -358,7 +384,6 @@ def save_newline_to_file(bounding_list,filepath,directory):
 		list_to_write.append(",".join(str(l) for l in line))
 
 	with open(os.path.join(directory,newfilename) + '.txt', mode='wt', encoding='utf-8') as myfile:
- 		#myfile.write('\n'.join(char_per_line))
  		myfile.write('\n'.join(list_to_write))
 
-	return bounding_list
+	#return bounding_list
