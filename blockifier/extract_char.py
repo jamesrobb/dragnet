@@ -179,10 +179,10 @@ def get_binary(pic, tresh_value=0.5):
 	# binary values get 1 if black, 0 if white
 	return [(1 if (b==0) else 0) for b in binary]
 
-def print_binary(binary,width,height):
+def print_matrix(matrix,width,height):
 	
 	for i in range(0,width*height,width):
-		print(binary[i:i+width])
+		print(matrix[i:i+width])
 
 	return
 
@@ -278,9 +278,9 @@ def mark_bounding_boxes(filepath, bounding_list,directory):
 
 	return
 
-def save_binary_to_file(binary_lst,filepath,directory):
+def save_matrices_to_file(matrices_lst,filepath,directory):
 
-	directory = directory+"/binary"
+	directory = directory+"/matrices"
 
 	# check if directory exists and create one if not
 	if not os.path.exists(directory):	
@@ -289,12 +289,12 @@ def save_binary_to_file(binary_lst,filepath,directory):
 	path, filename = os.path.split(filepath)
 	newfilename, filetype = os.path.splitext(filename)
 
-	bin_list = []
-	for binary in binary_lst:
-		bin_list.append(",".join(str(b) for b in binary))
+	matrix_list = []
+	for matrix in matrices_lst:
+		matrix_list.append(",".join(str(m) for m in matrix))
 
 	with open(os.path.join(directory,newfilename) + '.txt', mode='wt', encoding='utf-8') as myfile:
- 		myfile.write('\n'.join(bin_list))
+ 		myfile.write('\n'.join(matrix_list))
 
 	return
 

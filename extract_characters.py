@@ -75,9 +75,9 @@ for img_path in os.listdir(source_directory):
 
 	document.close()
 
-	# Get a list of binary files from the picture list after resizing every picture.
+	# Get a list of matrix files from the picture list after resizing every picture.
 	float_list = get_float_list(picture_list, set_width, set_height)
 
-	save_binary_to_file(float_list,filepath,output_directory)
+	save_matrices_to_file(float_list,filepath,output_directory)
 
 
