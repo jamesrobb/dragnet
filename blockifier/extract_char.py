@@ -355,9 +355,10 @@ def save_newline_to_file(bounding_list,filepath,directory):
 		if(b[1] > box_bottom):
 			index.append(ind_counter)
 			box_left = 0
-			box_bottom = b[3]
+			#box_bottom = b[3]
 		else:
 			box_left = b[0]
+		box_bottom = b[1]+get_bounding_box_height(b)*0.75
 		ind_counter += 1
 
 	index.append(ind_counter)
