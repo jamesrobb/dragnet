@@ -2,12 +2,13 @@
 
 import os
 import sys
+import argparse
 from blockifier import extract_char
 from PIL import Image
 
-def images_to_binary_arrays(source_directory, barrays_file, labels_file):
+def main(source_directory, matrices_file, labels_file):
 
-    b_file = open(barrays_file, 'w')
+    b_file = open(matrices_file, 'w')
     l_file = open(labels_file, 'w')
 
     alphabet = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя1234567890"
@@ -31,12 +32,11 @@ def images_to_binary_arrays(source_directory, barrays_file, labels_file):
         l_file.write(label_to_write + "\n")
         #binary = extract_char.get_binary(img)
 
-if len(sys.argv) < 4:
-    print("Not enough arguements")
-    print("Usage: python file (source dir) (barrays file) (character file)")
-    exit()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("source_directory", help="source of images")
+    parser.add_argument("matrices_file", help="file to write matrices to")
+    parser.add_argument("labels_file", help="file to write labels to")
+    args = parser.parse_args()
 
-sys.argv[1] = sys.argv[1][:-1] if sys.argv[1][-1] == '/' else sys.argv[1]
-sys.argv[2] = sys.argv[2][:-1] if sys.argv[2][-1] == '/' else sys.argv[2]
-sys.argv[3] = sys.argv[3][:-1] if sys.argv[3][-1] == '/' else sys.argv[3]
-images_to_binary_arrays(sys.argv[1], sys.argv[2], sys.argv[3])
+    main(args.source_directory, args.matrices_file, args.labels_file)
