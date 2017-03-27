@@ -52,6 +52,8 @@ The first argument is the directory where the images to be parsed are. The secon
 
 # Contributors
 
+At one point the history of the project was removed. For this reason it is especially important to recognize the contributors to this project. They are:
+
 * James Robb [https://github.com/jamesrobb](https://github.com/jamesrobb)
 * Sigurður Helgson [https://github.com/sigurdurhelga](https://github.com/sigurdurhelga)
 * Sævar Valdimarsson [https://github.com/sabbisun](https://github.com/sabbisun)
