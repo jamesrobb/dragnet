@@ -39,7 +39,7 @@ Where [size] is the number of records in `./training_set_data/matrices.txt` to b
 
 	./dragnet_nn_train.py --overwrite_brain
 
-This can take some time depending on what sort of machine you are using. The argument tells the script to overwrite the contents of the previous "brain", that is, overwrite the previous configuration of the neural network. The brain is stored in the `DRAGNET_NN_BRAIN_LOCATION` variable located in `dragnet_nn/dragnet_nn.py`.
+This can take some time depending on what sort of machine you are using. On a standard laptop, this is likely 1-2 hours. The argument tells the script to overwrite the contents of the previous "brain", that is, overwrite the previous configuration of the neural network. The brain is stored in the `DRAGNET_NN_BRAIN_LOCATION` variable located in `dragnet_nn/dragnet_nn.py`.
 
 # Parsing Images
 
