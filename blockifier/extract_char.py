@@ -349,13 +349,13 @@ def save_newline_to_file(bounding_list,filepath,directory):
 	ind_counter = 0
 	index = []
 
-	box_bottom = bounding_list[0][3]
+	#box_bottom = bounding_list[0][3]
 
 	for b in bounding_list:
-		if(b[1] > box_bottom):
+		if(b[0] < box_left):
 			index.append(ind_counter)
 			box_left = 0
-			box_bottom = b[3]
+			#box_bottom = b[3]
 		else:
 			box_left = b[0]
 		ind_counter += 1
